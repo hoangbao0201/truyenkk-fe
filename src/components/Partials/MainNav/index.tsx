@@ -53,8 +53,8 @@ const MainNav = ({ isDynamic = false }: MainNavProps) => {
                                                 listTag?.map((tag) => {
                                                     return (
                                                         <li key={tag?.id}>
-                                                            <Link href={`/tim-truyen?genres=${tag?.id}`} title={tag?.name} prefetch={false}>
-                                                                <div className={`pl-2 pr-1 py-[3px] line-clamp-1 rounded-md hover:bg-gray-100 hover:dark:text-black ${tag?.isGreatBook ? "font-semibold text-red-500" : ""}`}>{tag?.name}</div>
+                                                            <Link href={`/tim-truyen?genres=${tag?.id}`} title={tag?.title} prefetch={false}>
+                                                                <div className={`pl-2 pr-1 py-[3px] line-clamp-1 rounded-md hover:bg-gray-100 hover:dark:text-black ${tag?.isGreatBook ? "font-semibold text-red-500" : ""}`}>{tag?.title}</div>
                                                             </Link>
                                                         </li>
                                                     )

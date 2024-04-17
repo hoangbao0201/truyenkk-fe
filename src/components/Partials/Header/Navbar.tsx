@@ -73,7 +73,7 @@ const Navbar = () => {
                                         <li key={tag?.id}>
                                             <Link prefetch={false} href={`/tim-truyen?genres=${tag?.id}`}>
                                                 <div className={`line-clamp-1 px-2 py-2 rounded-md hover:bg-gray-100 hover:dark:bg-gray-600 ${tag?.isGreatBook ? "font-semibold text-red-500" : ""}`}>
-                                                    {tag?.name}
+                                                    {tag?.title}
                                                 </div>
                                             </Link>
                                         </li>
