@@ -9,9 +9,7 @@ import Breadcrumbs from "@/components/Share/BreadCrumbs";
 import formatFullDateTime from "@/utils/formatFullDateTime";
 import { GetCommentsProps } from "@/services/comment.services";
 import ContentComment from "@/components/Share/ContentComment";
-import AdsAdsterraBanner from "@/components/Share/Ads/Adsterra/AdsAdsterraBanner";
 import { GetChapterDetailProps, GetChaptersProps } from "@/services/chapter.services";
-import AdsClickAduBanner from "@/components/Share/Ads/ClickAdu/AdsClickAduBanner";
 
 const NavChapter = dynamic(() => import("./NavChapter"), { ssr: false });
 
