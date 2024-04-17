@@ -35,6 +35,43 @@ class CrawlService {
             };
         }
     }
+    async updateBook({
+        bookId,
+        title,
+        anotherName,
+        author,
+        token,
+    }: {
+        bookId: number;
+        title: string;
+        anotherName: string;
+        author: string;
+        token: string;
+    }): Promise<any> {
+        try {
+            const crawlBookRes = await fetch(
+                `${API_BASE_URL}/api/books/${bookId}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        title, anotherName, author
+                    }),
+                }
+            );
+            const crawlBook = await crawlBookRes.json();
+            return crawlBook;
+        } catch (error) {
+            return {
+                success: false,
+                message: "error blog successful",
+                error: error,
+            };
+        }
+    }
     async crawlChapters({
         url,
         type,

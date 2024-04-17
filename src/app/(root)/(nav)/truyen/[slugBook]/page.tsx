@@ -1,0 +1,68 @@
+import { Metadata, ResolvingMetadata } from "next";
+
+import { MAIN_BASE_URL } from "@/lib/config";
+import commentService from "@/services/comment.services";
+import bookService, { GetBookProps } from "@/services/book.services";
+import BookDetailTemplate from "@/components/Modules/BookDetaiTemplate";
+
+type Props = {
+    params: {
+        slugBook: string;
+    };
+};
+export async function generateMetadata(
+    { params }: Props,
+    parent: ResolvingMetadata
+): Promise<Metadata> {
+    const { slugBook } = params;
+
+    const cvBookId = slugBook.substring(slugBook.lastIndexOf("-") + 1);
+    const { book }: { book: GetBookProps } = await bookService.findOne({
+        bookId: +cvBookId,
+        revalidate: 10*60
+    });
+    const previousImages = (await parent).openGraph?.images || [];
+
+    return {
+        title: `${book?.title || ""} [Tới Chap ${
+            book?.chapters[0]?.chapterNumber || 0
+        }] Tiếng Việt - TRUYENKK`,
+        description: `❶✔️ Đọc truyện tranh ${book?.title} [${
+            book?.anotherName || ""
+        }] Tiếng Việt bản đẹp chất lượng cao, cập nhật nhanh và sớm nhất tại TRUYENKK`,
+        openGraph: {
+            title: `${book?.title}`,
+            siteName: `TRUYENKK`,
+            url: `${MAIN_BASE_URL}/truyen/${book?.slug}-${book?.bookId}`,
+            type: "article",
+            description: `❶✔️ Đọc truyện tranh ${book?.title} [${
+                book?.anotherName || ""
+            }] Tiếng Việt bản đẹp chất lượng cao, cập nhật nhanh và sớm nhất tại TRUYENKK`,
+            images: [
+                "https://d32phrebrjmlad.cloudfront.net/" +
+                    book?.thumbnail || "",
+                ...previousImages,
+            ],
+        },
+    };
+}
+export default async function HomePage({ params, searchParams }: Props & { searchParams: any }) {
+    const { slugBook } = params;
+    const { isRead } = searchParams;
+
+    const cvBookId = slugBook.substring(slugBook.lastIndexOf("-") + 1);
+    const { book }: { book: GetBookProps } = await bookService.findOne({
+        bookId: +cvBookId,
+        revalidate: 10*60
+    });
+    const { comments } = await commentService.findAll({
+        query: `?bookId=${cvBookId}&otherId=${isRead || ""}`,
+        revalidate: isRead ? undefined : 10*60
+    });
+
+    return (
+        <>
+            <BookDetailTemplate book={book} comments={comments} isRead={isRead}/>
+        </>
+    );
+}

@@ -6,15 +6,15 @@ import RegisterTemplate from "@/components/Modules/Auth/RegisterTemplate/page";
 export async function generateMetadata(): Promise<Metadata> {
 
     return {
-        title: `Đăng kí - HENTAIKK`,
-        description: `HENTAIKK Trang đăng kí`,
+        title: `Đăng kí - TRUYENKK`,
+        description: `TRUYENKK Trang đăng kí`,
         openGraph: {
-            title: `Đăng kí - HENTAIKK`,
-            siteName: `HENTAIKK`,
+            title: `Đăng kí - TRUYENKK`,
+            siteName: `TRUYENKK`,
             url: `${MAIN_BASE_URL}/auth/login`,
             type: "website",
             images: [],
-            description: `HENTAIKK Trang đăng kí`,
+            description: `TRUYENKK Trang đăng kí`,
         },
         alternates: {
             canonical: `${MAIN_BASE_URL}`,

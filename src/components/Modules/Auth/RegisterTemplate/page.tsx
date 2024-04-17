@@ -102,11 +102,11 @@ const RegisterTemplate = ({ returnurl }: RegisterTemplateProps) => {
                                         loading="lazy"
                                         width={100}
                                         height={100}
-                                        alt="Logo Hentaikk"
+                                        alt="Logo TRUYENKK"
                                         src={`/static/images/logo.png`}
                                         className="w-8 h-8 object-cover"
                                     />
-                                    <h1 className="ml-2 font-bold text-2xl text-red-600 dark:text-white">HENTAIKK</h1>
+                                    <h1 className="ml-2 font-bold text-2xl text-red-600 dark:text-white">TRUYENKK</h1>
                                 </Link>
                             </div>
                             <div className="font-semibold text-center text-2xl mb-5">
