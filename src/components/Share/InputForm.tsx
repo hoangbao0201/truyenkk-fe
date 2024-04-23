@@ -7,8 +7,9 @@ interface InputFormProps {
     data?: string
     setData?: ChangeEventHandler<HTMLInputElement>
     error?: string
+    disabled?: boolean
 }
-const InputForm = ({ title, type, placehoder, data, setData, error }: InputFormProps) => {
+const InputForm = ({ title, type, placehoder, data, setData, error, disabled = false }: InputFormProps) => {
 
     return (
         <div className="relative">
@@ -24,7 +25,8 @@ const InputForm = ({ title, type, placehoder, data, setData, error }: InputFormP
                     name={type}
                     value={data}
                     onChange={setData}
-                    className="border h-11 py-2 px-4 rounded-md w-full transition-all focus:border-blue-600 focus:outline outline-blue-600"
+                    disabled={disabled}
+                    className={`${disabled && "pointer-events-none bg-gray-200 dark:bg-gray-700 opacity-60"} border h-11 py-2 px-4 rounded-md w-full transition-all  focus:border-blue-600 focus:outline outline-blue-600`}
                 />
             </div>
             {error && <div className="text-red-500 line-clamp-none text-end text-[14px] absolute left-0 -bottom-1">{error}</div>}

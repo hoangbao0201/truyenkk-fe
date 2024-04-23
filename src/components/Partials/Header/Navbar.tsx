@@ -56,6 +56,9 @@ const Navbar = () => {
                                         <Link href={`/theo-doi`}>
                                             <div className="px-2 py-2 rounded-md hover:bg-gray-100 hover:dark:bg-gray-600">Theo dõi</div>
                                         </Link>
+                                        <Link href={`/secure/dashboard`}>
+                                            <div className="px-2 py-2 rounded-md hover:bg-gray-100 hover:dark:bg-gray-600">Trang cá nhân</div>
+                                        </Link>
                                         <div onClick={() => signOut({ redirect: false })} className="px-2 py-2 cursor-pointer rounded-md hover:bg-gray-100 hover:dark:bg-gray-600">Đăng xuất</div>
                                     </>
                                 )

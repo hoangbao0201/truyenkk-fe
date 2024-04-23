@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { useOnClickOutside } from "usehooks-ts";
 import { signOut, useSession } from "next-auth/react";
@@ -19,6 +19,10 @@ const NavAccount = () => {
     const handleLogoutUser = () => {
         signOut({ redirect: false });
     };
+
+    useEffect(() => {
+        setIsNavAccount(false);
+    }, [searchParams])
 
     useOnClickOutside(dropdownNavAccountRef, () => setIsNavAccount(false));
 
@@ -57,7 +61,7 @@ const NavAccount = () => {
                                         </Link>
                                     )
                                 }
-                                <Link href={`/dashboard`} title="Trang điều khiển">
+                                <Link href={`/secure/dashboard`} title="Trang điều khiển">
                                     <div
                                         className="px-3 py-2 cursor-pointer hover:bg-gray-100 hover:dark:bg-gray-500"
                                     >
