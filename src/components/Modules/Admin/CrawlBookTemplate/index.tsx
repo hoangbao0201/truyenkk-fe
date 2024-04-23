@@ -264,7 +264,7 @@ const CrawlBookTemplate = () => {
 
                             <button
                                 onClick={handleUpdateBook}
-                                className="px-4 py-2 w-full rounded-md bg-blue-500"
+                                className="px-4 py-2 w-full flex justify-center rounded-md bg-blue-500"
                             >
                                 {isAction === "loading_update_book" ? (
                                     <IconLoadingSpin />
