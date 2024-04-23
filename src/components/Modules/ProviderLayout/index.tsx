@@ -5,37 +5,43 @@ import { SessionProvider } from "next-auth/react";
 
 import store from "@/redux/store";
 import { Provider } from "react-redux";
-import { useMediaQuery } from "usehooks-ts";
 import { ThemeProvider } from "next-themes";
 import NextTopLoader from "nextjs-toploader";
 import ButtonOnTop from "@/components/Share/ButtonOnTop";
+import dynamic from "next/dynamic";
 
-import Script from "next/script";
+const ChatBox = dynamic(() => import("@/components/Share/ChatBox"), { ssr: false })
 
 export default function ProviderLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    const matchesMobile = useMediaQuery("(max-width: 1024px)");
+    // const matchesMobile = useMediaQuery("(max-width: 1024px)");
 
     return (
         <>
-            <Suspense>
-                <ButtonOnTop />
-                {matchesMobile && (
-                    <>
-                        <Script
-                            strategy="lazyOnload"
-                            src="https://www.vipads.live/vn/886F8AFE-FF83-1620-33-D7BCF23CEE7C.blpha"
-                        ></Script>
-                    </>
-                )}
-            </Suspense>
-            <NextTopLoader height={3} color="#2563ebcc" showSpinner={false} />
             <SessionProvider>
                 <Provider store={store}>
                     <ThemeProvider attribute="class">
+
+                        <Suspense>
+                            <div className="transition-all duration-1000 ease-linear fixed right-7 bottom-7 z-50 flex">
+                                <ButtonOnTop />
+                                <ChatBox />
+                            </div>
+                            <NextTopLoader
+                                color="#2563ebcc"
+                                initialPosition={0.08}
+                                crawlSpeed={200}
+                                height={3}
+                                crawl={true}
+                                showSpinner={false}
+                                easing="ease"
+                                speed={200}
+                            />
+                        </Suspense>
+
                         {children}
                     </ThemeProvider>
                 </Provider>

@@ -111,7 +111,7 @@ html {
 .dark {
     .readItemChild {
         & > div:first-child {
-            background-color: rgb(254, 226, 226, 0.2);;
+            background-color: rgb(254, 226, 226, 0.2);
         }
     }
 }
@@ -125,4 +125,207 @@ html {
 .ql-editor {
     font-size: 16px;
     padding: 0px !important;
+}
+
+// TOP MEMBER
+
+.member-1 {
+    color: #3498db !important;
+}
+.member-2 {
+    color: #27ae60 !important;
+}
+.member-3 {
+    color: #d35400 !important;
+}
+.member-4,
+.member-5 {
+    color: #3b3b3b;
+}
+
+// Page Secure Login
+
+.bubbles {
+    width: 15px;
+    height: 15px;
+    margin: 2px;
+    border-radius: 100%;
+    -webkit-animation: bubbles 0.6s 0.07s infinite ease-in-out;
+    animation: bubbles 0.6s 0.07s infinite ease-in-out;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    display: inline-block;
+}
+
+@keyframes bubbles {
+    66% {
+        -webkit-transform: translateY(-10px);
+        transform: translateY(-10px);
+    }
+
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+
+// CSS POST
+
+.postname {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 22px;
+    line-height: 1.5;
+    margin-top: 0;
+    margin-bottom: 20px;
+
+    &:after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 3px;
+        background: #ee2c74;
+        margin-top: 5px;
+    }
+}
+
+.posttitle {
+    font-weight: 500;
+    border-left: 3px solid #ee2c74;
+    padding-left: 10px;
+    font-size: 18px;
+    line-height: 1.5;
+    margin: 0 0 20px;
+    min-height: 27px;
+}
+
+.progress-rank {
+    display: block;
+    height: 12px;
+    background: linear-gradient(
+        90deg,
+        #ffd33d,
+        #ea4aaa 17%,
+        #b34bff 34%,
+        #01feff 51%,
+        #ffd33d 68%,
+        #ea4aaa 85%,
+        #b34bff
+    );
+    background-size: 300% 100%;
+    -webkit-animation: progressRankAnimation 2s linear infinite;
+    animation: progressRankAnimation 2s linear infinite;
+    text-align: center;
+    line-height: 13px;
+    font-size: 12px;
+}
+
+@keyframes progressRankAnimation {
+    0% {
+        background-position: 100%;
+    }
+    100% {
+        background-position: 0;
+    }
+}
+
+// Chatbox
+// .button-show-chatbox {
+//     animation: grow-icon .4s ease-out;
+// }
+// .button-hidden-chatbox {
+//     animation: hide-icon .4s forwards ease-out;
+// }
+
+.button-chatbox:not(.active) .button-show-chatbox {
+    animation: grow-icon .4s ease-out;
+}
+.button-chatbox:not(.active) .button-hidden-chatbox {
+    animation: hide-icon .4s forwards ease-out;
+}
+
+.button-chatbox.active .button-show-chatbox {
+    animation: hide-icon .4s forwards ease-out;
+}
+.button-chatbox.active .button-hidden-chatbox {
+    animation: grow-icon .4s ease-out;
+}
+
+@keyframes grow-icon {
+    0% {
+        transform: scale(0.5);
+        opacity: .8;
+    }
+    
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+@keyframes hide-icon {
+    0% {
+        transform: scale(1);
+        opacity: .4;
+    }
+    
+    100% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+}
+
+.chatbox {
+    position: fixed;
+    width: 400px;
+    right: 28px;
+    bottom: 85px;
+    transform-origin: right bottom;
+    transition: opacity 150ms cubic-bezier(0.2, 0, 0.2, 1),
+    transform 150ms cubic-bezier(0.2, 0, 0.2, 1) !important;
+    transition: opacity .15s ease;
+
+    // display: none;
+    // opacity: 0;
+    // visibility: hidden;
+    // transform: scale(0.85);
+
+    &.show {
+        // display: block;
+        // opacity: 1;
+        // visibility: visible;
+        // transform: scale(1);
+    }
+
+    .chatbox-form {
+        overflow: hidden;
+        border-radius: 8px;
+        height: calc(100vh - 150px);
+    }
+}
+@media only screen and (max-width: 768px) {
+    .chatbox {
+        width: 100%;
+        right: 0px;
+        .chatbox-form {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    }
+
+}
+
+// CUSTOM SCROLL
+.custom-scroll {
+    scrollbar-width: thin;
+    // scrollbar-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+    transition: scrollbar-color .3s ease;
+    -webkit-overflow-scrolling: touch;
+    pointer-events: auto;
+
+    // &:hover {
+        scrollbar-color: var(--color-scrollbar) rgba(0, 0, 0, 0);
+    // }
 }
