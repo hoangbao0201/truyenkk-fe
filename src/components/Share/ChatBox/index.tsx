@@ -192,12 +192,12 @@ const ChatBox = () => {
                                 priority={true}
                                 width={100}
                                 height={100}
-                                alt="Logo Hentaikk"
+                                alt="Logo TRUYENKK"
                                 src={`/static/images/logo.png`}
                                 className="w-8 h-8 object-cover"
                             />
                             <p className="ml-1 text-xl text-red-600 dark:text-white font-bold uppercase">
-                                HENTAIKK
+                                TRUYENKK
                             </p>
                         </div>
                         <div className="h-screen overflow-x-hidden overflow-y-auto custom-scroll px-2 py-2">
@@ -236,7 +236,7 @@ const ChatBox = () => {
                                                         priority={true}
                                                         width={100}
                                                         height={100}
-                                                        alt="Logo Hentaikk"
+                                                        alt="Logo TRUYENKK"
                                                         src={`/static/images/avatar_default.png`}
                                                         className="w-10 h-10 mr-2 rounded-full object-cover flex-shrink-0"
                                                     />

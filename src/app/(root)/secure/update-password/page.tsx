@@ -9,7 +9,7 @@ type Props = {
 export async function generateMetadata(): Promise<Metadata> {
 
     return {
-        title: `Đăng nhập bằng tài khoản Google - HENTAIKK`,
+        title: `Đăng nhập bằng tài khoản Google - TRUYENKK`,
     };
 }
 export default async function SecurePage({ params, searchParams }: Props & { searchParams: any }) {

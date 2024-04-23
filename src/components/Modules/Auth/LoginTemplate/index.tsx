@@ -141,7 +141,7 @@ const LoginTemplate = ({ token, returnurl }: LoginTemplateProps) => {
                                         loading="lazy"
                                         width={100}
                                         height={100}
-                                        alt="Logo Hentaikk"
+                                        alt="Logo TRUYENKK"
                                         src={`/static/images/logo.png`}
                                         className="w-8 h-8 object-cover"
                                     />

@@ -19,11 +19,11 @@ export async function generateMetadata({ searchParams }: SearchParamProps): Prom
     }
     
     return {
-        title: `Tìm truyện ${tag} - HENTAIKK`,
+        title: `Tìm truyện ${tag} - TRUYENKK`,
         description: `Tìm truyện ❶✔️ Web đọc truyện tranh online lớn nhất - Truyện tranh hay nhất, chất lượng được cập nhật liên tục mỗi ngày`,
         openGraph: {
-            title: `Tìm truyện ${tag} - HENTAIKK`,
-            siteName: `HENTAIKK`,
+            title: `Tìm truyện ${tag} - TRUYENKK`,
+            siteName: `TRUYENKK`,
             url: `${MAIN_BASE_URL}/tim-truyen`,
             type: "website",
             images: [],

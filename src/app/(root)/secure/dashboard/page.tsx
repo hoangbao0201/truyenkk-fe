@@ -9,7 +9,7 @@ type Props = {
 export async function generateMetadata(): Promise<Metadata> {
 
     return {
-        title: `Thông tin chung - HENTAIKK`,
+        title: `Thông tin chung - TRUYENKK`,
     };
 }
 export default async function DashboardPage({ params, searchParams }: Props & { searchParams: any }) {

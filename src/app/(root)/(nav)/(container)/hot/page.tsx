@@ -13,15 +13,15 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     return {
-        title: `Đọc Truyện Tranh Online - Website chính thức - HENTAIKK`,
-        description: `Web đọc truyện tranh online lớn nhất được cập nhật liên tục mỗi ngày - Cùng tham gia đọc truyện và thảo luận với hơn 💚100 triệu thành viên tại HENTAIKK`,
+        title: `Đọc Truyện Tranh Online - Website chính thức - TRUYENKK`,
+        description: `Web đọc truyện tranh online lớn nhất được cập nhật liên tục mỗi ngày - Cùng tham gia đọc truyện và thảo luận với hơn 💚100 triệu thành viên tại TRUYENKK`,
         openGraph: {
-            title: `Đọc Truyện Tranh Online - Website chính thức - HENTAIKK`,
-            siteName: `HENTAIKK`,
+            title: `Đọc Truyện Tranh Online - Website chính thức - TRUYENKK`,
+            siteName: `TRUYENKK`,
             url: `${MAIN_BASE_URL}`,
             type: "website",
             images: [],
-            description: `Web đọc truyện tranh online lớn nhất được cập nhật liên tục mỗi ngày - Cùng tham gia đọc truyện và thảo luận với hơn 💚100 triệu thành viên tại HENTAIKK`,
+            description: `Web đọc truyện tranh online lớn nhất được cập nhật liên tục mỗi ngày - Cùng tham gia đọc truyện và thảo luận với hơn 💚100 triệu thành viên tại TRUYENKK`,
         },
         alternates: {
             canonical: `${MAIN_BASE_URL}`,
