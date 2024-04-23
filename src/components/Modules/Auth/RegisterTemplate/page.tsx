@@ -4,17 +4,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 import ButtonAuth from "../ButtonAuth";
 import authService from "@/services/auth.services";
 import InputForm from "@/components/Share/InputForm";
 import checkDataRegister from "@/utils/checkDataRegister";
+import { API_BASE_URL } from "@/lib/config";
 
 interface RegisterTemplateProps {
+    token?: string
     returnurl?: string
 }
-const RegisterTemplate = ({ returnurl }: RegisterTemplateProps) => {
+const RegisterTemplate = ({ token, returnurl }: RegisterTemplateProps) => {
     const router = useRouter();
     
     const [isError, setIsError] = useState<{ [key: string]: string }>({});
@@ -24,7 +26,7 @@ const RegisterTemplate = ({ returnurl }: RegisterTemplateProps) => {
         password: "",
         rePassword: "",
     });
-    const [loadingLogin, setLoadingLogin] = useState(false);
+    const [loadingLogin, setLoadingLogin] = useState(!!token);
 
     const eventChangeValueInput = (e: ChangeEvent<HTMLInputElement>) => {
         delete isError[e.target.name]
@@ -73,16 +75,48 @@ const RegisterTemplate = ({ returnurl }: RegisterTemplateProps) => {
         signIn("github", { redirect: false });
     };
 
+    // Handle Signin Google
     const handleSigninGoogle = async () => {
-        // signIn("google", { redirect: false });
-        signIn("google");
+        localStorage.setItem("returnurl", returnurl || "/");
+        window.location.href = `${API_BASE_URL}/api/auth/google`;
+        // window.open(`${API_BASE_URL}/api/auth/google`, "_self", 'toolbar=no, scrollbars=yes, resizable=no, width=1000, height=auto')
     };
 
-    const handleSigninFacebook = async () => {
-        signIn("facebook", { redirect: false });
-    };
+    const handleLoginWithToken = async () => {
+        if(!token) {
+            return;
+        }
+        setLoadingLogin(true);
+        try {
+            const result = await signIn("login-token", {
+                redirect: false,
+                token: token
+            });
 
-    console.log(isError)
+            setLoadingLogin(false);
+
+            if (!result?.ok) {
+                router.push("/auth/login")
+                setIsError({
+                    common: "Tài khoản hoặc mật khẩu không đúng"
+                });
+                setTimeout(() => {
+                    setIsError({});
+                }, 5000);
+            }
+            else {
+                router.push(localStorage.getItem('returnurl') || "/");
+            }
+        } catch (error) {
+            
+        }
+    }
+
+    useEffect(() => {
+        if(token) {
+            handleLoginWithToken();
+        }
+    }, [token])
 
     return (
         <>
@@ -102,11 +136,11 @@ const RegisterTemplate = ({ returnurl }: RegisterTemplateProps) => {
                                         loading="lazy"
                                         width={100}
                                         height={100}
-                                        alt="Logo TRUYENKK"
+                                        alt="Logo Hentaikk"
                                         src={`/static/images/logo.png`}
                                         className="w-8 h-8 object-cover"
                                     />
-                                    <h1 className="ml-2 font-bold text-2xl text-red-600 dark:text-white">TRUYENKK</h1>
+                                    <h1 className="ml-2 font-bold text-2xl text-red-600 dark:text-white">HENTAIKK</h1>
                                 </Link>
                             </div>
                             <div className="font-semibold text-center text-2xl mb-5">
@@ -154,8 +188,8 @@ const RegisterTemplate = ({ returnurl }: RegisterTemplateProps) => {
                                 </div>
         
                                 <ButtonAuth
-                                    color="text-black bg-white hover:bg-gray-100 pointer-events-none opacity-50"
-                                    content="Google"
+                                    color="text-black bg-white hover:bg-gray-100"
+                                    content="Đăng kí với Google"
                                     linkIcon="/static/icons/google.svg"
                                     handle={handleSigninGoogle}
                                 />

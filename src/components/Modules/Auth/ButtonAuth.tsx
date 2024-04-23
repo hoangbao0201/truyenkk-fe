@@ -27,7 +27,7 @@ const ButtonAuth = ({
                 className="w-7 h-7 block my-[5px] ml-3 border-r pr-2 left-0 absolute"
                 src={linkIcon}
             />
-            Đăng nhập với {content}
+            {content}
         </div>
     );
 };

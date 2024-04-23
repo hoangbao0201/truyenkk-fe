@@ -50,6 +50,26 @@ class AuthService {
             };
         }
     }
+
+    async loginWithToken(token: string): Promise<any> {
+        try {
+            const loginRes = await fetch(`${API_BASE_URL}/api/auth/login/token`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            const login = await loginRes.json();
+            return login;
+        } catch (error) {
+            return {
+                success: false,
+                message: "Login error",
+                error: error,
+            };
+        }
+    }
 }
 
 const authService = new AuthService();

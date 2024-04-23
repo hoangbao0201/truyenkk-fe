@@ -24,7 +24,8 @@ async function refreshToken(token: JWT): Promise<JWT> {
 const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
-            name: "Credentials",
+            id: "login-basic",
+            name: "Username And Password",
             credentials: {
                 accout: {
                     label: "Accout",
@@ -44,10 +45,42 @@ const authOptions: NextAuthOptions = {
                 return loginRes?.data;
             },
         }),
+        CredentialsProvider({
+            id: "login-token",
+            name: "Token",
+            credentials: {
+                token: {
+                    label: "Token",
+                    type: "text",
+                    placeholder: "",
+                },
+            },
+            async authorize(credentials, req) {
+                if (!credentials?.token) return null;
+                const { token } = credentials;
+                const loginRes = await authService.loginWithToken(token);
+            
+                if (!loginRes.success) {
+                    return null;
+                }
+
+                return loginRes?.data;
+            },
+        }),
     ],
     callbacks: {
-        async jwt({ token, user }) {
-            if (user) return { ...token, ...user };
+        async jwt({ token, user, trigger, session }) {
+            if(trigger === "update") {
+                console.log("trigger: ", trigger);
+                console.log("user: ", user);
+                console.log("session: ", session);
+                return {
+                    ...session
+                }
+            }
+            if (user) {
+                return { ...token, ...user }
+            };
 
             if (new Date().getTime() < token.backendTokens.expiresIn)
                 return token;
