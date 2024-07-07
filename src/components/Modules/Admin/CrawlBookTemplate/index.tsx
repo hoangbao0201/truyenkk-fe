@@ -2,13 +2,17 @@
 
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { ChangeEvent, Suspense, useState } from "react";
+import { ChangeEvent, Suspense, useEffect, useState } from "react";
 
 import IconXmark from "../../Icons/IconXmark";
 import crawlService from "@/services/crawl.services";
 import IconLoadingSpin from "../../Icons/IconLoadingSpin";
 import IconMagnifyingGlass from "../../Icons/IconMagnifyingGlass";
 import SelectOptions from "@/components/Share/SelectOptions";
+import bookService, { GetBooksProps } from "@/services/book.services";
+import { useDebounceValue } from "usehooks-ts";
+import Link from "next/link";
+import getTypeByUrlBook from "@/utils/getTypeByUrlBook";
 
 const optionsWebCrawl = ["nettruyen", "manhuavn","truyenqq"]
 
@@ -27,14 +31,16 @@ const CrawlBookTemplate = () => {
         author: string;
     }>(null);
     const [dataCrawlBook, setDataCrawlBook] = useState<{
-        type: string,
         bookUrl: string,
         take: number,
     }>({
-        type: optionsWebCrawl[0],
         bookUrl: "",
         take: 1,
     });
+    const [valueSearch, setValueSearch] = useState("");
+    const [booksSearch, setBooksSearch] = useState<null | GetBooksProps[]>(
+        null
+    );
 
     // Handle Onchange Data Crawl
     const handleOnchangeDataCrawlBook = (e: ChangeEvent<HTMLInputElement>) => {
@@ -60,12 +66,18 @@ const CrawlBookTemplate = () => {
         if (status !== "authenticated") {
             return;
         }
+        const { bookUrl } = dataCrawlBook;
+        const typeBook = getTypeByUrlBook(bookUrl);
+        if (!typeBook) {
+            alert("Url không thuộc type có sẵn chính xác");
+            return;
+        }
         setIsAction("loading_crawl_book");
         try {
             const bookCrawlRes = await crawlService.crawlBook({
                 token: session?.backendTokens.accessToken,
                 url: dataCrawlBook?.bookUrl,
-                type: dataCrawlBook?.type,
+                type: typeBook,
             });
 
             if (bookCrawlRes?.success) {
@@ -119,6 +131,12 @@ const CrawlBookTemplate = () => {
         if (status !== "authenticated") {
             return;
         }
+        const { bookUrl } = dataCrawlBook;
+        const typeBook = getTypeByUrlBook(bookUrl);
+        if (!typeBook) {
+            alert("Url không thuộc type có sẵn chính xác");
+            return;
+        }
         setIsAction("loading_crawl_chapters");
         setIsCheckCrawlChapter(null);
         try {
@@ -126,7 +144,7 @@ const CrawlBookTemplate = () => {
                 token: session?.backendTokens.accessToken,
                 url: dataCrawlBook?.bookUrl,
                 take: dataCrawlBook?.take,
-                type: dataCrawlBook?.type,
+                type: typeBook,
             });
 
             if (chaptersCrawlRes?.success) {
@@ -153,27 +171,164 @@ const CrawlBookTemplate = () => {
         setSelectBook(null);
         setIsAction("");
         setDataCrawlBook({
-            type: optionsWebCrawl[0],
             bookUrl: "",
             take: 1,
         });
         setIsCheckCrawlChapter(null);
     };
 
+    const valueSearchDebouce = useDebounceValue(valueSearch.trim(), 500);
+
+    // Event Onchange Value Search
+    const eventOnchangeValueSearch = (e: ChangeEvent<HTMLInputElement>) => {
+        setValueSearch(e.target.value);
+    };
+
+    const handleSearchBooks = async () => {
+        if (status !== "authenticated") {
+            return;
+        }
+        try {
+            const booksRes = await bookService?.findAll({
+                query: `?q=${valueSearchDebouce[0]}&take=6`,
+            });
+
+            if (booksRes?.success) {
+                setBooksSearch(booksRes?.books);
+            }
+        } catch (error) {}
+    };
+
+    useEffect(() => {
+        if (valueSearchDebouce[0].length > 0) {
+            handleSearchBooks();
+        } else {
+            setBooksSearch(null);
+        }
+    }, [valueSearchDebouce[0]]);
+
+    const handleSelectBook = (book: GetBooksProps) => {
+        const { bookId, slug, title, thumbnail, chapters, anotherName, author } = book;
+        setSelectBook({
+            bookId: bookId,
+            title: title,
+            thumbnail: thumbnail,
+            anotherName: anotherName ? anotherName : "",
+            author: author ? author?.name : ""
+        });
+    };
+
     return (
         <div>
-            <div className="bg-white dark:bg-slate-700 px-3 py-4 rounded-md shadow-sm">
-
+            <div className="bg-white dark:bg-slate-700 px-3 py-4 mb-20 rounded-md shadow-sm">
+            <h3 className="font-semibold text-base mb-2">
+                    Lựa chọn truyện
+                </h3>
+                <div className="mb-4 relative">
+                    <input
+                        value={valueSearch}
+                        onChange={eventOnchangeValueSearch}
+                        className={`border h-10 px-4 rounded-md outline-none w-full ${selectBook && "pointer-events-none select-none bg-gray-200"}`}
+                    />
+                    <div className="py-3">
+                        {selectBook ? (
+                            <div>
+                                {/* <div className="flex mb-4">
+                                    <div className="w-24 h-[130px] rounded-md border overflow-hidden">
+                                        <Image
+                                            unoptimized
+                                            loading="lazy"
+                                            width={100}
+                                            height={130}
+                                            alt=""
+                                            className="w-24 h-[130px] object-cover"
+                                            src={`https://d32phrebrjmlad.cloudfront.net/${selectBook?.thumbnail}`}
+                                        />
+                                    </div>
+                                    <div className="ml-3">
+                                        <div className="mb-3">
+                                            Tên truyện: {selectBook?.title}
+                                        </div>
+                                        <div className="mb-1">
+                                            Số lượng chương:{" "}
+                                            {selectBook?.countChapters}
+                                        </div>
+                                        <div className="mb-2">
+                                            <Link
+                                                target="_blank"
+                                                className="underline text-blue-500"
+                                                href={`/truyen/${selectBook?.slug}-${selectBook?.bookId}/chapter-${selectBook?.countChapters}`}
+                                            >
+                                                Tới chương 44 ngay
+                                            </Link>
+                                        </div>
+                                        <button
+                                            onClick={handleCloseBook}
+                                            className="px-4 py-2 rounded-md bg-red-500"
+                                        >
+                                            <IconXmark className="fill-white" />
+                                        </button>
+                                    </div>
+                                </div> */}
+                            </div>
+                        ) : (
+                            booksSearch &&
+                            (booksSearch.length > 0 ? (
+                                <div>
+                                    {booksSearch?.map((book) => {
+                                        return (
+                                            <div
+                                                key={book?.bookId}
+                                                onClick={() =>
+                                                    handleSelectBook(book)
+                                                }
+                                                className="flex items-center px-3 py-3 rounded-md cursor-pointer select-none hover:bg-gray-100 dark:hover:bg-gray-600"
+                                            >
+                                                <Image
+                                                    unoptimized
+                                                    loading="lazy"
+                                                    src={
+                                                        `https://d32phrebrjmlad.cloudfront.net/${book?.thumbnail}` ??
+                                                        `/static/images/book_thumbnail.jpg`
+                                                    }
+                                                    width={50}
+                                                    height={70}
+                                                    alt={`Ảnh truyện ${""}`}
+                                                    className="w-[50px] h-[70px] object-cover rounded shadow"
+                                                />
+                                                <div className="ml-3">
+                                                    <p className="font-medium text-lg line-clamp-1">
+                                                        {book?.title}
+                                                    </p>
+                                                    <div>
+                                                        Số chương:{" "}
+                                                        {book?.chapters.length >
+                                                        0
+                                                            ? book?.chapters[0]
+                                                                  .chapterNumber
+                                                            : 0}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            ) : (
+                                <div className="">Không tìm thấy truyện.</div>
+                            ))
+                        )}
+                    </div>
+                </div>
                 <h3 className="font-semibold text-base mb-2">
                     Trang web
                 </h3>
-                <div className="mb-3">
+                {/* <div className="mb-3">
                     <SelectOptions
                         value={dataCrawlBook?.type}
                         options={optionsWebCrawl}
                         handleOnchange={(selectOption: string) => {setDataCrawlBook({ ...dataCrawlBook, type: selectOption })}}
                     />
-                </div>
+                </div> */}
 
                 <h3 className="font-semibold text-base mb-2">
                     Địa chỉ bộ truyện

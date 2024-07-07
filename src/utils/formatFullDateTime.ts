@@ -8,10 +8,12 @@ const formatFullDateTime = (isoString: Date) => {
     const day = date.getUTCDate();
     const month = date.getUTCMonth() + 1; // Lưu ý: Tháng trong JavaScript bắt đầu từ 0
     const year = date.getUTCFullYear();
-    const hours = date.getUTCHours();
+    const hours = date.getUTCHours() + 7 > 24 ? date.getUTCHours() + 7 - 24 : date.getUTCHours() + 7;
     const minutes = date.getUTCMinutes();
 
-    const formattedDateTime = `${dayOfWeek}, ${day}/${month}/${year}, ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} (GMT)`;
+    
+
+    const formattedDateTime = `${dayOfWeek}, ${day}/${month}/${year}, ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 
     return formattedDateTime;
 }

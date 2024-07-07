@@ -18,7 +18,7 @@ const MainNav = ({ isDynamic = false }: MainNavProps) => {
         <>
             <nav className={`z-10 lg:block hidden ${isDynamic ? "sticky top-0 left-0 right-0" : ""}`}>
                 <div className="mt-2">
-                    <div className="relative xl:max-w-screen-lg lg:max-w-screen-lg md:max-w-screen-md mx-auto py-1 bg-gray-600 text-white md:rounded-sm shadow-sm">
+                    <div className="relative xl:max-w-screen-xl lg:max-w-screen-lg md:max-w-screen-md mx-auto py-1 bg-gray-600 text-white md:rounded-sm shadow-sm">
                         <ul className="flex items-center px-1 space-x-1">
 
                             <li>

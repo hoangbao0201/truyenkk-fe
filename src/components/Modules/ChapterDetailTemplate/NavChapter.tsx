@@ -106,7 +106,7 @@ const NavChapter = ({
                         : "rounded-md px-3 md:mx-3"
                 }`}
             >
-                <div className="xl:max-w-screen-lg lg:max-w-screen-lg md:max-w-screen-md mx-auto w-full flex items-center justify-center py-1 space-x-2">
+                <div className="xl:max-w-screen-xl lg:max-w-screen-lg md:max-w-screen-md mx-auto w-full flex items-center justify-center py-1 space-x-2">
                     <Link href={`${"/"}`} title="Trang chủ">
                         <div className="hover:bg-gray-200 hover:dark:bg-gray-600 px-2 h-[36px] rounded-md">
                             <IconHouse

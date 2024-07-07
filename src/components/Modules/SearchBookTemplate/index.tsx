@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link";
 import { Fragment, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -9,6 +8,7 @@ import CardBook from "@/components/Share/CardBook";
 import { GetBooksProps } from "@/services/book.services";
 import Breadcrumbs from "@/components/Share/BreadCrumbs";
 import { NavPagination } from "@/components/Share/NavPagination";
+import Link from "next/link";
 
 interface SearchBookTemplateProps {
     isShow: boolean
@@ -65,7 +65,7 @@ const SearchBookTemplate = ({ isShow, author, tags, books, countPage, currentPag
     return (
         <>
             <div className="py-2">
-                <div className="xl:max-w-screen-lg lg:max-w-screen-lg md:max-w-screen-md mx-auto bg-white dark:bg-slate-800 md:rounded-md shadow">
+                <div className="xl:max-w-screen-xl lg:max-w-screen-lg md:max-w-screen-md mx-auto bg-white dark:bg-slate-900 md:rounded-md shadow">
                     <Breadcrumbs
                         listBreadcrumbs={[
                             { title: "Tìm truyện", slug: "/tim-truyen" },
@@ -180,7 +180,7 @@ const SearchBookTemplate = ({ isShow, author, tags, books, countPage, currentPag
                     </div>
     
                     <div className="pb-4 px-3">
-                        <div className="grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-x-5 gap-y-3">
+                        <div className="grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-x-4 gap-y-3">
                             {
                                 books && books.map((book, index) => {
                                     return (

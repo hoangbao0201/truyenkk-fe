@@ -16,7 +16,7 @@ const ButtonAuth = ({
     return (
         <div
             onClick={handle}
-            className={`${color} mb-2 select-none relative flex items-center justify-center border text-lg h-13 py-2 px-2 cursor-pointer text-center rounded-md`}
+            className={`${color} mb-2 select-none relative flex items-center justify-center h-11 px-2 cursor-pointer text-center rounded-md`}
         >
             <Image
                 unoptimized

@@ -1,16 +1,24 @@
 import { API_BASE_URL } from "@/lib/config";
 
 export interface GetChatMessageProps {
-    messageId: string
-    socketId: string
-    user: null | {
-        userId: number
-        name: string
-        username: string
-        role: "admin" | "editor" | "guest"
-    }
-    content: string
+    chatId: number
+    socketId: string;
+    sender: null | {
+        userId: number;
+        name: string;
+        username: string;
+        item: number | null;
+        rank: number;
+        avatarUrl: string | null;
+        role: {
+            roleName: "admin" | "editor" | "guest"
+        }
+    };
+    image: string | null
+    chatText: string;
+    createdAt: string;
 }
+
 class ChatService {
     async findAllMessage(): Promise<any> {
         try {

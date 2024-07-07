@@ -4,7 +4,6 @@ import { ChangeEvent, useState } from "react";
 
 const UpdatePassword = () => {
     const [loadingUpdatePassword, setLoadingUpdatePassword] = useState(false);
-
     const [isError, setIsError] = useState<null | string>(null);
     const [dataLogin, setDataLogin] = useState({
         accout: "",

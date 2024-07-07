@@ -4,10 +4,11 @@ import { useState } from "react";
 
 import { useSession } from "next-auth/react";
 import calculateRank from "@/utils/calculateRank";
+import TextLevel from "@/components/Share/TextLevel";
 
 const DashboardTemplate = () => {
     const { data: session, status } = useSession();
-    
+    // console.log(session)
     return (
         <div>
             <h1
@@ -23,7 +24,15 @@ const DashboardTemplate = () => {
                         <div className="border rounded-md py-2 px-2 max-w-[500px] flex-1">
                             <div className="flex whitespace-nowrap">
                                 <div className="w-24 px-1 py-1">Họ và tên</div>
-                                <div className="px-1 py-1">{session?.user.name}</div>
+                                <div className="px-1 py-1">
+                                    {
+                                        status === "authenticated" && (
+                                            <TextLevel item={session?.user.item} role={session?.user.role.roleName} rank={session?.user.rank}>
+                                                {session?.user.name}
+                                            </TextLevel>
+                                        )
+                                    }
+                                </div>
                             </div>
                             <div className="flex whitespace-nowrap">
                                 <div className="w-24 px-1 py-1">Email</div>
@@ -67,6 +76,8 @@ export default DashboardTemplate;
 const FormRankUser = ({ rank }: { rank: number }) => {
     const { level, percentage } = calculateRank(rank);
 
+    console.log({ level, percentage })
+
     return (
         <>
             <div className="flex justify-between mb-1">
@@ -74,7 +85,7 @@ const FormRankUser = ({ rank }: { rank: number }) => {
                 <span>Cấp {level + 1}</span>
             </div>
             <div className="w-full h-3 rounded-full overflow-hidden bg-gray-100 mb-2">
-                <div style={{ width: `${percentage === 0 ? 2 : percentage}%`}} className={`progress-rank`}>{percentage}%</div>
+                <div style={{ width: `${percentage === 0 ? 2 : percentage}%`}} className={`progress-rank h-3`}>{percentage.toFixed(2)}%</div>
             </div>
             <div>
                 Loại cấp bậc <span className="text-red-500">Cấp {level}</span>

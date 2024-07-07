@@ -14,6 +14,7 @@ import { NavPagination } from "@/components/Share/NavPagination";
 import SkeletonAdminItemBook from "../../Skeleton/SkeletonAdminItemBook";
 import adminService, { AdminGetBooksProps } from "@/services/admin.services";
 import { RootStateTypeLoadingSlide, setTypeLoading } from "@/redux/typeLoadingSlide";
+import formatFullDateTime from "@/utils/formatFullDateTime";
 
 interface AdminBooksTemplateProps {
 }
@@ -26,7 +27,7 @@ const AdminBooksTemplate = ({}: AdminBooksTemplateProps) => {
     );
     
     const [page, setPage] = useState(1);
-    const [isShow, setIsShow] = useState(false);
+    const [isShow, setIsShow] = useState(true);
     const [dataBooks, setDataBooks] = useState<null | {
         countBook: number;
         books: AdminGetBooksProps[];
@@ -123,13 +124,13 @@ const AdminBooksTemplate = ({}: AdminBooksTemplateProps) => {
         <>
             <div>
                 <div className="bg-white dark:bg-slate-700 px-3 py-4 rounded-md shadow-sm">
-                    <div className="mb-4 sticky top-[52px] bg-white dark:bg-slate-700 z-10 left-0 right-0 border rounded-md px-4 py-3 flex items-end">
-                        <div className="font-semibold mr-4">Show/Hidden</div>
+                    {/* <div className="mb-4 sticky top-[52px] bg-white dark:bg-slate-700 z-10 left-0 right-0 border rounded-md px-4 py-3 flex items-end">
+                        <div className="font-semibold mr-4">Hiện/Ẩn</div>
                         <ToggleCheck
                             checked={isShow}
                             handleChecked={() => setIsShow(state => !state)}
                         />
-                    </div>
+                    </div> */}
 
                     <div className="overflow-y-auto relative border rounded-md mb-5">
                         <table className="table-auto w-full">
@@ -182,7 +183,8 @@ const AdminBooksTemplate = ({}: AdminBooksTemplateProps) => {
                                                                         </strong>
                                                                     </div>
                                                                     <div className="mb-1">Số chương: {book?._count.chapters || 0}</div>
-                                                                    <div>Type: <strong>{book?.type}</strong></div>
+                                                                    {/* <div>Type: <strong>{book?.type}</strong></div> */}
+                                                                    <div>Thời gian tạo: {formatFullDateTime(book?.createdAt)}</div>
                                                                 </div>
                                                             </div>
                                                         </td>

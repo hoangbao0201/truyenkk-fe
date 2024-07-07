@@ -18,17 +18,19 @@ interface ChapterDetailTemplateProps {
     chapter: GetChapterDetailProps;
     chapters: GetChaptersProps[]
     comments: GetCommentsProps[]
+    countComments: number
 }
 const ChapterDetailTemplate = ({
     chapter,
     chapters,
-    comments
+    comments,
+    countComments,
 }: ChapterDetailTemplateProps) => {
 
     return (
         <>
             <div className="bg-black py-2">
-                <div className="xl:max-w-screen-lg lg:max-w-screen-lg md:max-w-screen-md mx-auto w-full">
+                <div className="xl:max-w-screen-xl lg:max-w-screen-lg md:max-w-screen-md mx-auto w-full">
 
                     <div className="py-3 rounded-md bg-white dark:bg-slate-900">
                         <Breadcrumbs
@@ -87,14 +89,14 @@ const ChapterDetailTemplate = ({
                     </div>
 
                     <div className="my-2 relative flex justify-center space-x-3">
-                        <div className="max-w-[300px] h-[250px] bg-gray-100 rounded-md">
+                        {/* <div className="max-w-[300px] h-[250px] bg-gray-100 rounded-md"> */}
                             {/* <AdsAdsterraBanner /> */}
                             {/* <AdsClickAduBanner id="2021417"/> */}
-                        </div>
-                        <div className="max-w-[300px] h-[250px] bg-gray-100 rounded-md md:block hidden">
+                        {/* </div> */}
+                        {/* <div className="max-w-[300px] h-[250px] bg-gray-100 rounded-md md:block hidden"> */}
                             {/* <AdsAdsterraBanner /> */}
                             {/* <AdsClickAduBanner id="2021464"/> */}
-                        </div>
+                        {/* </div> */}
                     </div>
                     
                     {/* <div className="my-2 relative flex justify-center space-x-3">
@@ -135,14 +137,14 @@ const ChapterDetailTemplate = ({
                     </div> */}
 
                     <div className="my-2 relative flex justify-center space-x-3">
-                        <div className="max-w-[300px] h-[250px] bg-gray-100 rounded-md">
+                        {/* <div className="max-w-[300px] h-[250px] bg-gray-100 rounded-md"> */}
                             {/* <AdsAdsterraBanner /> */}
                             {/* <AdsClickAduBanner id="2021465"/> */}
-                        </div>
-                        <div className="max-w-[300px] h-[250px] bg-gray-100 rounded-md md:block hidden">
+                        {/* </div> */}
+                        {/* <div className="max-w-[300px] h-[250px] bg-gray-100 rounded-md md:block hidden"> */}
                             {/* <AdsAdsterraBanner /> */}
                             {/* <AdsClickAduBanner id="2021466"/> */}
-                        </div>
+                        {/* </div> */}
                     </div>
 
                     <Suspense>
@@ -171,9 +173,12 @@ const ChapterDetailTemplate = ({
 
                     <div className="bg-white dark:bg-slate-900 rounded-md">
                         <ContentComment
-                            comments={comments}
                             bookId={chapter?.bookId}
                             chapterNumber={chapter?.chapterNumber}
+                            comments={comments}
+                            countPage={
+                                Math.ceil((Number(countComments) || 1) / 8) || 1
+                            }
                         />
                     </div>
                 </div>

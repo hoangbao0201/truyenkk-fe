@@ -9,6 +9,7 @@ declare module "next-auth" {
             email: string,
             description: null | "",
             rank: number,
+            item: null | number
             avatarUrl: string | null,
             createdAt: Date,
             updatedAt: Date,
@@ -38,6 +39,7 @@ declare module "next-auth/jwt" {
             email: string,
             description: null | "",
             rank: number,
+            item: null | number
             avatarUrl: string | null,
             createdAt: Date,
             updatedAt: Date,

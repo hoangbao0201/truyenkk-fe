@@ -9,7 +9,7 @@ const FollowTemplate = ({ books }: FollowTemplateProps) => {
 
     return (
         <div className="py-2">
-            <div className="xl:max-w-screen-lg lg:max-w-screen-lg md:max-w-screen-md mx-auto bg-white dark:bg-slate-900 md:rounded-md shadow">
+            <div className="xl:max-w-screen-xl lg:max-w-screen-lg md:max-w-screen-md mx-auto bg-white dark:bg-slate-900 md:rounded-md shadow">
                 
                 <div className="py-4 lg:flex">
                     <div className="lg:w-8/12 px-3 mb-5">

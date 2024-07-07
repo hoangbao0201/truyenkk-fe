@@ -6,6 +6,7 @@ export interface GetTopMembersProps {
     avatarUrl: null | string;
     name: string;
     rank: number;
+    item: number
     role: {
         roleName: "admin" | "guest" | "editor";
     };
@@ -14,6 +15,7 @@ export interface GetUserDetailProps {
     userId: number,
     username: string,
     name: string,
+    item: number
     avatarUrl: null | string,
     createdAt: Date,
     description: null | string,
@@ -51,6 +53,54 @@ class UserServices {
         }
     }
 
+    async attendance({
+        token
+    }: {
+        token: string;
+    }): Promise<any> {
+        try {
+            const userRes = await fetch(`${API_BASE_URL}/api/users/attendance`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            const user = await userRes.json();
+            return user;
+        } catch (error) {
+            return {
+                success: false,
+                message: "error blog successful",
+                error: error,
+            };
+        }
+    }
+
+    async attendanceCheck({
+        token
+    }: {
+        token: string;
+    }): Promise<any> {
+        try {
+            const userRes = await fetch(`${API_BASE_URL}/api/users/attendance`, {
+                method: "Post",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            const user = await userRes.json();
+            return user;
+        } catch (error) {
+            return {
+                success: false,
+                message: "error blog successful",
+                error: error,
+            };
+        }
+    }
+
     async updateName({
         name,
         token
@@ -66,6 +116,33 @@ class UserServices {
                     Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({ name: name })
+            });
+            const user = await userRes.json();
+            return user;
+        } catch (error) {
+            return {
+                success: false,
+                message: "error blog successful",
+                error: error,
+            };
+        }
+    }
+
+    async updateAvatar({
+        avatar,
+        token
+    }: {
+        avatar: string
+        token: string
+    }): Promise<any> {
+        try {
+            const userRes = await fetch(`${API_BASE_URL}/api/users/update/avatar`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ avatar: avatar })
             });
             const user = await userRes.json();
             return user;

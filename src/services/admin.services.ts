@@ -11,6 +11,7 @@ export interface AdminGetBooksProps {
     _count: {
         chapters: number
     }
+    createdAt: Date
 }
 export interface AdminGetUsersProps {
     userId: number
@@ -20,6 +21,27 @@ export interface AdminGetUsersProps {
     rank: number
 }
 class AdminService {
+    async dataInfoManager({ token }: { token: string }): Promise<any> {
+        try {
+            const bookRes = await fetch(`${API_BASE_URL}/api/admin/dataInfoManager`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                cache: "no-store"
+            });
+            const dataInfoManager = await bookRes.json();
+            return dataInfoManager;
+        } catch (error) {
+            return {
+                success: false,
+                message: "error get dataInfoManager",
+                error: error,
+            };
+        }
+    }
+
     async findAllBooks({ query, token }: { query?: string, token: string }): Promise<any> {
         try {
             const bookRes = await fetch(`${API_BASE_URL}/api/admin/books${query ? query : ""}`, {

@@ -6,8 +6,12 @@ export type GetBooksProps = {
     title: string;
     slug: string;
     nameImage: string;
-    thumbnail: string | null;
+    thumbnail: string;
     isGreatBook: boolean;
+    author: {
+        name: string
+    } | null
+    anotherName: string
     chapters: { chapterNumber: number; createdAt: Date }[];
 };
 export type GetBookProps = {

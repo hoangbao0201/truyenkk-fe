@@ -22,9 +22,9 @@ const SkeletonAdminItemBook = ({ count = 4 }: { count?: number }) => {
                             <td className="">
                                 <div></div>
                             </td>
-                            <td className="">
+                            {/* <td className="">
                                 <div></div>
-                            </td>
+                            </td> */}
                         </tr>
                     </Fragment>
                 );

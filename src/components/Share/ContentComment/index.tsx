@@ -1,6 +1,7 @@
-"use client"
+"use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 import ReactQuill from "react-quill";
@@ -8,27 +9,50 @@ import { useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
 
 import CardComment from "./CardComment";
-import FormEditorComment from "./FormEditorComment";
+import { NavButtonPagination } from "../NavButtonPagination";
 import commentService, { GetCommentsProps } from "@/services/comment.services";
 import SkeletonItemComment from "@/components/Modules/Skeleton/SkeletonItemComment";
-import { RootStateCommentSlide, addComments, addReplyComments, setCommentId, setComments } from "@/redux/commentSlide";
+import {
+    RootStateCommentSlide,
+    addComments,
+    addReplyComments,
+    setCommentId,
+    setComments,
+    setIsLoading,
+} from "@/redux/commentSlide";
+
+const FormEditorComment = dynamic(() => import("./FormEditorComment"), {
+    ssr: false,
+    loading: () => (
+        <div className="rounded-md animate-pulse h-[116px] bg-gray-200 dark:bg-slate-800"></div>
+    ),
+});
 
 interface ContentCommentProps {
-    bookId: number
-    isRead?: boolean
-    chapterNumber?: number
-    comments: GetCommentsProps[]
+    bookId: number;
+    isRead?: boolean;
+    chapterNumber?: number;
+    comments: GetCommentsProps[];
+    countPage: number
 }
-const ContentComment = ({ isRead = false, bookId, chapterNumber, comments }: ContentCommentProps) => {
+const ContentComment = ({
+    isRead = false,
+    bookId,
+    chapterNumber,
+    comments,
+    countPage,
+}: ContentCommentProps) => {
     const dispatch = useDispatch();
     const { data: session, status } = useSession();
     const commentSlide = useSelector(
         (state: RootStateCommentSlide) => state.commentSlide
     );
 
+    const commentRef = useRef<HTMLDivElement>(null);
     const editorRef = useRef<ReactQuill>(null);
     const [isDisabledComment, setIsDisabledComment] = useState(false);
     const [editorState, setEditorState] = useState<string>("");
+    const [pageNumber, setPageNumber] = useState(1);
 
     // Handle Send Comment
     const handleSendComment = async ({
@@ -40,7 +64,7 @@ const ContentComment = ({ isRead = false, bookId, chapterNumber, comments }: Con
         parentId?: number;
         commentText: string;
     }) => {
-        if(!session) {
+        if (!session) {
             return;
         }
 
@@ -64,6 +88,7 @@ const ContentComment = ({ isRead = false, bookId, chapterNumber, comments }: Con
                                     name: session.user.name,
                                     username: session.user.username,
                                     rank: session.user.rank,
+                                    item: session.user.item,
                                     role: {
                                         roleId: session.user.role.roleId,
                                         roleName: session.user.role.roleName,
@@ -94,6 +119,7 @@ const ContentComment = ({ isRead = false, bookId, chapterNumber, comments }: Con
                             name: session.user.name,
                             username: session.user.username,
                             rank: session.user.rank,
+                            item: session?.user.item,
                             role: {
                                 roleId: session.user.role.roleId,
                                 roleName: session.user.role.roleName,
@@ -147,8 +173,10 @@ const ContentComment = ({ isRead = false, bookId, chapterNumber, comments }: Con
         receiverId?: number;
         parentId?: number;
     }) => {
-        if(isDisabledComment) {
-            alert("Bạn bình luận quá nhanh. Vui lòng đợi 10 giây nữa để bình luận tiếp.");
+        if (isDisabledComment) {
+            alert(
+                "Bạn bình luận quá nhanh. Vui lòng đợi 10 giây nữa để bình luận tiếp."
+            );
             return;
         }
         setIsDisabledComment(true);
@@ -156,12 +184,12 @@ const ContentComment = ({ isRead = false, bookId, chapterNumber, comments }: Con
             setIsDisabledComment(false);
         }, 15000);
 
-        const textLength = editorState.replace(/<[^>]*>/g, '').length;
+        const textLength = editorState.replace(/<[^>]*>/g, "").length;
         if (textLength < 3 || textLength >= 600) {
             alert("Nhập trên 3 và nhỏ hơn 600 kí tự");
             return;
         }
-        
+
         try {
             editorRef.current?.focus();
             setEditorState("");
@@ -174,27 +202,70 @@ const ContentComment = ({ isRead = false, bookId, chapterNumber, comments }: Con
         } catch (error) {}
     };
 
+    const handleChangePage = async (page: number) => {
+        setPageNumber(page);
+        try {
+            if (commentRef?.current) {
+                commentRef?.current.scrollIntoView({
+                    behavior: "instant",
+                    block: "start",
+                });
+            }
+            dispatch(setIsLoading(true));
+            const dataComments = await commentService.findAll({
+                query: `?bookId=${bookId}&otherId=${
+                    isRead || ""
+                }&take=${8}&skip=${(page - 1) * 8}`,
+                cache: "force-cache",
+            });
+
+            dispatch(setComments([...dataComments.comments]));
+        } catch (error) {}
+    };
+
     useEffect(() => {
-        if(comments) {
-            dispatch(setComments(comments));
+        if (comments) {
+            dispatch(setComments([...comments]));
         }
-    }, [comments])
+    }, [comments]);
 
     return (
-        <div className="md:px-5 px-3 py-5 dark:bg-slate-900 mt-5 md:rounded-md">
-            
-            <h5 id="comment" className="text-lg font-semibold mb-2 scroll-mt-[70px]">
+        <div className="md:px-5 px-3 py-5 dark:bg-slate-900/50 md:rounded-md">
+            <h5
+                ref={commentRef}
+                id="comment"
+                className="text-lg font-semibold mb-2 scroll-mt-[70px]"
+            >
                 Bình luận truyện
             </h5>
+            {status === "authenticated" && (
+                <div>
+                    <Link
+                        href={"/secure/user-profile"}
+                        prefetch={false}
+                        className="mt-2 text-sm text-blue-600 underline"
+                    >
+                        Đổi tên ngay
+                    </Link>
+                </div>
+            )}
             <div className={`pb-3`}>
                 {status === "unauthenticated" && (
                     <>
                         Hãy{" "}
-                        <Link aria-label={`đăng nhập`} className="font-semibold text-blue-500 hover:underline" href={`/auth/login`}>
+                        <Link
+                            aria-label={`đăng nhập`}
+                            className="font-semibold text-blue-500 hover:underline"
+                            href={`/auth/login`}
+                        >
                             đăng nhập
                         </Link>{" "}
                         hoặc{" "}
-                        <Link aria-label={`đăng ký`} className="font-semibold text-blue-500 hover:underline" href={`/auth/login`}>
+                        <Link
+                            aria-label={`đăng ký`}
+                            className="font-semibold text-blue-500 hover:underline"
+                            href={`/auth/login`}
+                        >
                             đăng ký
                         </Link>{" "}
                         để bắt đầu bình luận
@@ -202,7 +273,7 @@ const ContentComment = ({ isRead = false, bookId, chapterNumber, comments }: Con
                 )}
             </div>
 
-            <div className="pb-4 block">
+            <div className="mb-4 block">
                 <FormEditorComment
                     isReply={false}
                     sender={session?.user}
@@ -214,29 +285,58 @@ const ContentComment = ({ isRead = false, bookId, chapterNumber, comments }: Con
                     handleSend={handleCallSendComment}
                 />
             </div>
-            
 
-            <div className={`list-item-comment -mx-2 ${isRead ? "readItemChild" : ""}`}>
+            <div
+                className={`list-item-comment -mx-2 ${
+                    isRead ? "readItemChild" : ""
+                }`}
+            >
                 {commentSlide?.isLoading ? (
                     <SkeletonItemComment count={3} />
                 ) : (
                     commentSlide?.comments &&
-                    commentSlide?.comments.map((comment: any, index: number) => {
-                        return (
-                            <Fragment key={`${comment?.commentId}-${index}`}>
-                                <CardComment
-                                    isDisabledComment={isDisabledComment}
-                                    setIsDisabledComment={setIsDisabledComment}
-                                    bookId={bookId}
-                                    user={session?.user}
-                                    comment={comment}
-                                    handleSendComment={handleSendComment}
-                                />
-                            </Fragment>
-                        );
-                    })
+                    commentSlide?.comments.map(
+                        (comment: any, index: number) => {
+                            if (Object.keys(comment).length > 0) {
+                                return (
+                                    <Fragment
+                                        key={`${comment?.commentId}-${index}`}
+                                    >
+                                        <CardComment
+                                            isDisabledComment={
+                                                isDisabledComment
+                                            }
+                                            setIsDisabledComment={
+                                                setIsDisabledComment
+                                            }
+                                            bookId={bookId}
+                                            user={session?.user}
+                                            comment={comment}
+                                            handleSendComment={
+                                                handleSendComment
+                                            }
+                                        />
+                                    </Fragment>
+                                );
+                            } else {
+                                <Fragment key={`${new Date().toISOString()}`}>
+                                    Rỗng
+                                </Fragment>;
+                            }
+                        }
+                    )
                 )}
             </div>
+
+            {
+                countPage > 1 && (
+                    <NavButtonPagination
+                        currentPage={pageNumber}
+                        countPage={countPage}
+                        handleChangePage={handleChangePage}
+                    />
+                )
+            }
         </div>
     );
 };

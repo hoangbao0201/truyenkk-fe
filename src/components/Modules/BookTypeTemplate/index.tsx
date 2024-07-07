@@ -30,7 +30,7 @@ const BookTypeTemplate = ({ genre, books, countPage, currentPage }: BookTypeTemp
     return (
         <>
             <div className="py-2">
-                <div className="xl:max-w-screen-lg lg:max-w-screen-lg md:max-w-screen-md mx-auto bg-white dark:bg-slate-800 md:rounded-md shadow">
+                <div className="xl:max-w-screen-xl lg:max-w-screen-lg md:max-w-screen-md mx-auto bg-white dark:bg-slate-800 md:rounded-md shadow">
                     <Breadcrumbs
                         listBreadcrumbs={[
                             { title: "Tìm truyện", slug: "/tim-truyen" },

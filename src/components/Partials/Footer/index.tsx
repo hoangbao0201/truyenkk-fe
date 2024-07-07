@@ -6,7 +6,7 @@ const Footer = () => {
     return (
         <footer>
             <div className="bg-slate-800 shadow">
-                <div className="text-white xl:max-w-screen-lg lg:max-w-screen-lg md:max-w-screen-md mx-auto py-5 px-3">
+                <div className="text-white xl:max-w-screen-xl lg:max-w-screen-lg md:max-w-screen-md mx-auto py-5 px-3">
                     <div className="-mx-3">
                         <div className="lg:flex">
                             <div className="lg:w-4/12 px-3 mb-4">
@@ -66,15 +66,7 @@ const Footer = () => {
                                             <span className="font-bold">
                                                 TRUYENKK
                                             </span>
-                                            . Liên hệ quảng cáo - Telegram:{" "}
-                                            <Link
-                                                target="_blank"
-                                                href={`https://t.me/sknguyen09`}
-                                                className="hover:underline"
-                                            >
-                                                @sknguyen09
-                                            </Link>
-                                            .
+                                            
                                         </span>
                                     </div>
                                 </div>

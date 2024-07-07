@@ -31,10 +31,11 @@ const NavAccount = () => {
             {status !== "loading" &&
                 (status === "authenticated" ? (
                     <div
-                        ref={dropdownNavAccountRef}
-                        className="relative h-[52px] flex items-center justify-center"
+                    ref={dropdownNavAccountRef}
+                    className="relative h-[52px] flex items-center justify-center"
                     >
                         <div
+                            title={session?.user.name}
                             onClick={() => setIsNavAccount(true)}
                             className="relative transition-all duration-75 cursor-pointer active:scale-105 w-10 h-10 rounded-full border overflow-hidden"
                         >
@@ -44,6 +45,7 @@ const NavAccount = () => {
                                 alt="Ảnh người dùng"
                                 width={50}
                                 height={50}
+                                title={session?.user.name}
                                 src={`/static/images/avatar_default.png`}
                                 className="absolute left-0 right-0"
                             />

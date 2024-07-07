@@ -23,10 +23,10 @@ export default function ProviderLayout({
         <>
             <SessionProvider>
                 <Provider store={store}>
-                    <ThemeProvider attribute="class">
+                    <ThemeProvider attribute="class" forcedTheme="dark">
 
                         <Suspense>
-                            <div className="transition-all duration-1000 ease-linear fixed right-7 bottom-7 z-50 flex">
+                            <div className="transition-all duration-1000 ease-linear fixed right-3 bottom-7 z-[99] flex">
                                 <ButtonOnTop />
                                 <ChatBox />
                             </div>

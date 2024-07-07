@@ -10,6 +10,21 @@ const contentNav = [
         link: "/secure/dashboard",
         icon: null,
     },
+    // {
+    //     title: "Lịch sử đọc",
+    //     link: "/secure/history",
+    //     icon: null,
+    // },
+    // {
+    //     title: "Lịch sử giao dịch",
+    //     link: "/secure/history/payment",
+    //     icon: null,
+    // },
+    // {
+    //     title: "Mua điểm",
+    //     link: "/secure/payment/rank",
+    //     icon: null,
+    // },
     {
         title: "Thông tin tài khoản",
         link: "/secure/user-profile",
@@ -26,7 +41,7 @@ const SecureLayoutLayout = ({ children }: SecureLayoutLayoutProps) => {
     return (
         <>
             <div className="py-2">
-                <div className="xl:max-w-screen-lg lg:max-w-screen-lg md:max-w-screen-md py-4 mx-auto bg-white dark:bg-slate-900 md:rounded-md shadow">
+                <div className="xl:max-w-screen-xl lg:max-w-screen-lg md:max-w-screen-md py-4 mx-auto bg-white dark:bg-slate-900 md:rounded-md shadow">
                     <div className="lg:grid lg:grid-cols-12 min-h-[500px]">
                         <div className="lg:col-span-3 px-3 mb-4">
                             <nav className="bg-gray-100 dark:bg-gray-700 px-2 py-2 rounded-md">

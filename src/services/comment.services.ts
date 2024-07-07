@@ -16,6 +16,7 @@ export interface GetCommentsProps {
         name: string,
         username: string,
         rank: number,
+        item: number | null
         role: {
             roleId: number,
             roleName: "admin" | "editor" | "guest"

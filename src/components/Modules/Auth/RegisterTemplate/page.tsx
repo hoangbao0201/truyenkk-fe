@@ -55,7 +55,6 @@ const RegisterTemplate = ({ token, returnurl }: RegisterTemplateProps) => {
             const result = await authService.register({ name, email, password })
             setLoadingLogin(false);
 
-            console.log(result)
             if(result?.success) {
                 router.push(`/auth/login?returnurl=${returnurl}`); 
             }
@@ -121,12 +120,12 @@ const RegisterTemplate = ({ token, returnurl }: RegisterTemplateProps) => {
     return (
         <>
             <div>
-                <div className="py-4" style={{ minHeight: "calc(100vh - 174px)" }}>
+                <div className="py-8">
                     <div
-                        className={`bg-white dark:bg-slate-800/70 rounded-md shadow-sm border max-w-xl w-full mx-auto overflow-hidden ${loadingLogin && "pointer-events-none opacity-70"}`}
+                        className={`bg-white dark:bg-slate-800 rounded-md shadow-sm max-w-xl w-full mx-auto overflow-hidden ${loadingLogin && "pointer-events-none opacity-70"}`}
                     >
                         <div
-                            className={`loading-bar ${!loadingLogin && "before:content-none"}`}
+                            className={`loading-bar dark:bg-slate-800 ${!loadingLogin && "before:content-none"}`}
                         ></div>
                         <div className="px-5 py-5">
                             <div className="mb-3">
@@ -140,10 +139,10 @@ const RegisterTemplate = ({ token, returnurl }: RegisterTemplateProps) => {
                                         src={`/static/images/logo.png`}
                                         className="w-8 h-8 object-cover"
                                     />
-                                    <h1 className="ml-2 font-bold text-2xl text-red-600 dark:text-white">TRUYENKK</h1>
+                                    <h1 className="ml-2 font-bold text-xl text-red-600 dark:text-white">TRUYENKK</h1>
                                 </Link>
                             </div>
-                            <div className="font-semibold text-center text-2xl mb-5">
+                            <div className="font-semibold text-center text-xl mb-5">
                                 Đăng kí
                             </div>
                             <div className="mb-1">
@@ -182,13 +181,13 @@ const RegisterTemplate = ({ token, returnurl }: RegisterTemplateProps) => {
                             <div className="pt-1">
                                 <div
                                     onClick={handleRegister}
-                                    className="mb-2 border select-none bg-blue-600 hover:bg-blue-700 active:bg-blue-700/90 text-lg h-13 py-2 px-2 cursor-pointer text-center text-white rounded-md"
+                                    className="mb-2 select-none bg-blue-600 hover:bg-blue-700 text-lg h-13 py-2 px-2 cursor-pointer text-center text-white rounded-md"
                                 >
                                     Đăng kí
                                 </div>
         
                                 <ButtonAuth
-                                    color="text-black bg-white hover:bg-gray-100"
+                                    color="text-black dark:text-white text-[15px] leading-[44px] bg-white border dark:border-none hover:bg-gray-100 dark:bg-slate-700 dark:hover:bg-slate-700/90"
                                     content="Đăng kí với Google"
                                     linkIcon="/static/icons/google.svg"
                                     handle={handleSigninGoogle}

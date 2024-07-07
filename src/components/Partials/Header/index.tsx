@@ -39,7 +39,7 @@ const Header = () => {
     return (
         <header className="z-10">
             <div className="bg-white dark:bg-slate-600 shadow">
-                <div className="mx-auto h-[52px] max-w-screen-lg px-3 flex items-center relative">
+                <div className="mx-auto h-[52px] max-w-screen-xl px-3 flex items-center relative">
                     <div className="mr-4 flex-shrink-0">
                         <Link href={`/`} className="flex items-center">
                             <Image

@@ -4,7 +4,12 @@ import dynamic from "next/dynamic";
 
 import commentService, { GetCommentsProps } from "@/services/comment.services";
 
-const TextLevel = dynamic(() => import('@/components/Share/TextLevel'), { ssr: false, loading: () => <div className="w-[110px] h-[20px] my-[2px] rounded-sm bg-gray-300 animate-pulse"></div> });
+const TextLevel = dynamic(() => import("@/components/Share/TextLevel"), {
+    ssr: false,
+    loading: () => (
+        <div className="w-[110px] h-[20px] my-[2px] rounded-sm bg-gray-300 animate-pulse"></div>
+    ),
+});
 
 const SideLeft = async () => {
     const { comments }: { comments: GetCommentsProps[] } =
@@ -28,9 +33,12 @@ const SideLeft = async () => {
                                             height={60}
                                             loading="lazy"
                                             alt={`Ảnh người dùng ${comment?.sender.name}`}
-                                            src={
-                                                "/static/images/avatar_default.png"
-                                            }
+                                            src={`${
+                                                comment?.sender.avatarUrl
+                                                    ? "https://d32phrebrjmlad.cloudfront.net/" +
+                                                      comment?.sender.avatarUrl
+                                                    : "/static/images/avatar_default.png"
+                                            }`}
                                             className={`md:w-8 md:h-8 w-8 h-8 flex-shrink-0 block object-cover rounded-full`}
                                         />
                                     </Link>
@@ -38,12 +46,13 @@ const SideLeft = async () => {
                                 <div className="ml-2 flex-1">
                                     <div className="whitespace-nowrap line-clamp-1 flex items-center">
                                         <TextLevel
+                                            item={comment?.sender.item}
                                             role={comment?.sender.role.roleName}
                                             rank={comment?.sender.rank}
                                         >
                                             {comment?.sender.name}
                                         </TextLevel>
-                                        
+
                                         <Link
                                             href={`/truyen/${comment?.bookId}${
                                                 comment?.chapterNumber
@@ -59,10 +68,11 @@ const SideLeft = async () => {
                                     <div
                                         className="relative overflow-hidden"
                                         dangerouslySetInnerHTML={{
-                                            __html: JSON.parse(comment?.commentText),
+                                            __html: JSON.parse(
+                                                comment?.commentText
+                                            ),
                                         }}
-                                    >
-                                    </div>
+                                    ></div>
                                 </div>
                             </div>
                         </li>

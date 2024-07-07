@@ -8,7 +8,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             <MainNav />
             <div className="mt-2 mx-1">
                 <div>
-                    <div className="relative xl:max-w-screen-lg lg:max-w-screen-lg md:max-w-screen-md mx-auto rounded-sm overflow-hidden shadow-sm bg-blue-500 flex items-center">
+                    <div className="relative xl:max-w-screen-xl lg:max-w-screen-lg md:max-w-screen-md mx-auto rounded-sm overflow-hidden shadow-sm bg-blue-500 flex items-center">
                         <div className="px-3 py-4 h-full">
                             <IconCircleInfo  className="fill-white"/>
                         </div>

@@ -15,6 +15,11 @@ const contentNav = [
                 icon: <IconUserNinja size={20} />,
             },
             {
+                title: "Cào Nhiều truyện",
+                link: "/admin/crawl/books",
+                icon: <IconUserNinja size={20} />,
+            },
+            {
                 title: "Truyện tranh",
                 link: "/admin/books",
                 icon: <IconBook size={20} />,
